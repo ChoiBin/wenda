@@ -5,7 +5,7 @@ import com.choi.wenda.model.User;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
-public interface UserDao {  
+public interface UserDao {
 
     String TABLE_NAME = " user ";
     String INSERT_FIELDS = " name, password, salt, head_url ";
