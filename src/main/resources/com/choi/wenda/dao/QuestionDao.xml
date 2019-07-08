@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.choi.wenda.dao.QuestionDao">
     <sql id="table">question</sql>
-    <sql id="selectFields">id, title, content, comment_count,created_date,user_id
+    <sql id="selectFields">id, title, content, commentCount,createdDate,userId
     </sql>
     <select id="selectLatestQuestions" resultType="com.choi.wenda.model.Question">
         SELECT
@@ -12,7 +12,7 @@
         <include refid="table"/>
 
         <if test="userId != 0">
-            WHERE user_id = #{userId}
+            WHERE userId = #{userId}
         </if>
         ORDER BY id DESC
         LIMIT #{offset},#{limit}
