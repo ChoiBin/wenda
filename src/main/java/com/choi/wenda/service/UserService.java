@@ -39,7 +39,7 @@ public class UserService {
             return map;
         }
         if(StringUtils.isBlank(password)){
-            map.put("msg","面不能为空");
+            map.put("msg","密码不能为空");
             return map;
         }
         User user = userDao.selectByName(username);
@@ -101,6 +101,7 @@ public class UserService {
 
     public void logout(String ticket){
         loginTicketDao.updateStatus(ticket,1);
+
     }
 
 }

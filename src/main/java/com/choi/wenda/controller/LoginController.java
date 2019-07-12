@@ -3,6 +3,7 @@ package com.choi.wenda.controller;
 import com.choi.wenda.async.EventModel;
 import com.choi.wenda.async.EventProducer;
 import com.choi.wenda.async.EventType;
+import com.choi.wenda.model.HostHolder;
 import com.choi.wenda.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
@@ -26,9 +28,10 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private EventProducer eventProducer;
+    @Autowired
+    private HostHolder hostHolder;
 
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
     public String reg(Model model,
@@ -64,6 +67,9 @@ public class LoginController {
     public String reg(Model model,
                       @RequestParam(value = "next",required = false) String next){
          model.addAttribute("next",next);
+        if(hostHolder.getUser() != null){
+            return "/";
+        }
         return "login";
     }
 
@@ -105,8 +111,14 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET})
-    public String logout(@CookieValue("ticket") String ticket){
+    public String logout(@CookieValue("ticket") String ticket,
+                         HttpServletResponse response,HttpServletRequest request){
         userService.logout(ticket);
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
         return "redirect:/";
     }
 

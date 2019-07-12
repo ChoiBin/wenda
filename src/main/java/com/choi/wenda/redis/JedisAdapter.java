@@ -137,8 +137,8 @@ public class JedisAdapter{
             if (jedis != null) {
                 jedis.close();
             }
-            return null;
         }
+        return null;
     }
 
     public Set<String> zrevrange(String key,int start,int end) {
@@ -152,11 +152,11 @@ public class JedisAdapter{
             if (jedis != null) {
                 jedis.close();
             }
-            return null;
         }
+        return null;  //sb错误 不要放到finally里面return
     }
 
-    public long zcard(String key){
+    public long zcard(String key) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
@@ -167,8 +167,8 @@ public class JedisAdapter{
             if (jedis != null) {
                 jedis.close();
             }
-            return 0;
         }
+        return 0;
     }
 
     public Double zscore(String key,String member){
@@ -182,8 +182,8 @@ public class JedisAdapter{
             if (jedis != null) {
                 jedis.close();
             }
-            return null;
         }
+        return null;
     }
 
 
@@ -236,6 +236,18 @@ public class JedisAdapter{
     }
 
 
-
-
+    public List<String> lrange(String key, int start, int end) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.lrange(key, start, end);
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
 }

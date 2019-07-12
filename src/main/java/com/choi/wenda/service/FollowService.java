@@ -88,12 +88,12 @@ public class FollowService {
      * @return
      */
     public List<Integer> getFollowees(int userId,int entityType,int count){
-        String followeeKey = RedisKey.getFolloweeKey(userId, entityType);
+        String followeeKey = RedisKey.getFolloweeKey(entityType, userId);
         return getIdsFromSet(jedisAdapter.zrevrange(followeeKey,0,count));
     }
 
     public List<Integer> getFollowees(int userId,int entityType,int offset,int count){
-        String followeeKey = RedisKey.getFolloweeKey(userId, entityType);
+        String followeeKey = RedisKey.getFolloweeKey(entityType, userId);
         return getIdsFromSet(jedisAdapter.zrevrange(followeeKey,offset,offset + count));
     }
 
@@ -115,7 +115,7 @@ public class FollowService {
      * @return
      */
     public long getFolloweeCount(int userId,int entityType){
-        String followeeKey = RedisKey.getFollowerKey(userId, entityType);
+        String followeeKey = RedisKey.getFolloweeKey(entityType,userId);
         return jedisAdapter.zcard(followeeKey);
     }
 
@@ -133,8 +133,10 @@ public class FollowService {
 
     private List<Integer> getIdsFromSet(Set<String> idset){
         List<Integer> ids = new ArrayList<>();
-        for(String str : idset){
-            ids.add(Integer.parseInt(str));
+        if(idset != null){
+            for(String str : idset){
+                ids.add(Integer.parseInt(str));
+            }
         }
         return ids;
     }

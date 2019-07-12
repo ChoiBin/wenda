@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 public interface LoginTicketDao {
 
     String TABLE_NAME = " login_ticket ";
-    String INSERT_FIELDS = " user_id, expired, status, ticket ";
+    String INSERT_FIELDS = " userId, expired, status, ticket ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     @Insert(

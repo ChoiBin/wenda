@@ -1,7 +1,8 @@
 package com.choi.wenda.controller;
 
-import com.choi.wenda.model.Question;
-import com.choi.wenda.model.ViewObject;
+import com.choi.wenda.model.*;
+import com.choi.wenda.service.CommentService;
+import com.choi.wenda.service.FollowService;
 import com.choi.wenda.service.QuestionService;
 import com.choi.wenda.service.UserService;
 import org.slf4j.Logger;
@@ -26,6 +27,12 @@ public class HomeController {
     private QuestionService questionService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FollowService followService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private HostHolder hostHolder;
 
     @RequestMapping(path = {"/"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String index(Model model){
@@ -36,7 +43,20 @@ public class HomeController {
     @RequestMapping(path = {"/user/{userId}"},method = {RequestMethod.GET,RequestMethod.POST})
     public String userIndex(Model model, @PathVariable("userId") int userId){
         model.addAttribute("vos",getQuestions(userId,0,10));
-        return "index";
+        User user = userService.getUser(userId);
+        ViewObject viewObject = new ViewObject();
+        viewObject.set("user",user);
+        viewObject.set("commentCount",commentService.getUserCommentCount(userId));
+        viewObject.set("followerCount",followService.getFollowerCount(EntityType.ENTITY_USER,userId));
+        viewObject.set("followeeCount",followService.getFolloweeCount(userId,EntityType.ENTITY_USER));
+        if(hostHolder.getUser() != null){
+            viewObject.set("followed",followService.isFollower(hostHolder.getUser().getId(),EntityType.ENTITY_USER,userId));
+        }else{
+            viewObject.set("followed",false);
+        }
+        model.addAttribute("profileUser",viewObject);
+
+        return "profile";
     }
 
     /**
@@ -47,7 +67,11 @@ public class HomeController {
         List<ViewObject> viewObjects = new ArrayList<>();
         for(Question question : questionList){
             ViewObject viewObject = new ViewObject();
+            if(question.getContent().length() > 100){
+                question.setContent(question.getContent().substring(0,50));
+            }
             viewObject.set("question",question);
+            viewObject.set("followCount",followService.getFollowerCount(EntityType.ENTITY_QUESTION,question.getId()));
             viewObject.set("user",userService.getUser(question.getUserId()));
             viewObjects.add(viewObject);
         }

@@ -30,11 +30,17 @@
                 <form action="/reg/" id="regloginform" method="post">
                     <input type="hidden" name="_xsrf" value="21aa1c8d254df2899b23ab9afbd62a53">
                     <div class="group-inputs">
-                        <div class="email input-wrapper">
+                        <div class="input-wrapper">
                             <input type="text" name="username" aria-label="用户名" placeholder="用户名" required="">
                         </div>
                         <div class="input-wrapper">
-                            <input type="password" name="password" aria-label="密码" placeholder="密码" required="">
+                            <input type="password" name="password" aria-label="登录密码" placeholder="登录密码" required="">
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="text" name="phone" aria-label="电话号码" placeholder="电话号码" required="">
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="text" name="email" aria-label="邮箱" placeholder="邮箱" required="">
                         </div>
                     </div>
                     <input type="hidden" name="next" value="$!{next}"/>

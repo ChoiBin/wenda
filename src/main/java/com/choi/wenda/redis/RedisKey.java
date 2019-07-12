@@ -35,4 +35,7 @@ public class RedisKey {
         return BIZ_FOLLOWEE + SPLIT + String.valueOf(userId) + SPLIT +  String.valueOf(entityType);
     }
 
+    public static String getTimelineKey(int userId) {
+        return BIZ_TIMELINE + SPLIT + String.valueOf(userId);
+    }
 }

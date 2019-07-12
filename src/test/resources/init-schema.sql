@@ -3,11 +3,11 @@ CREATE TABLE `question` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `content` TEXT NULL,
-  `user_id` INT NOT NULL,
-  `created_date` DATETIME NOT NULL,
-  `comment_count` INT NOT NULL,
+  `userId` INT NOT NULL,
+  `createdDate` DATETIME NOT NULL,
+  `commentCount` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `date_index` (`created_date` ASC));
+  INDEX `date_index` (`createdDate` ASC));
 
   DROP TABLE IF EXISTS `user`;
   CREATE TABLE `user` (
@@ -15,7 +15,7 @@ CREATE TABLE `question` (
     `name` varchar(64) NOT NULL DEFAULT '',
     `password` varchar(128) NOT NULL DEFAULT '',
     `salt` varchar(32) NOT NULL DEFAULT '',
-    `head_url` varchar(256) NOT NULL DEFAULT '',
+    `headUrl` varchar(256) NOT NULL DEFAULT '',
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -23,7 +23,7 @@ CREATE TABLE `question` (
   DROP TABLE IF EXISTS `login_ticket`;
   CREATE TABLE `login_ticket` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `user_id` INT NOT NULL,
+    `userId` INT NOT NULL,
     `ticket` VARCHAR(45) NOT NULL,
     `expired` DATETIME NOT NULL,
     `status` INT NULL DEFAULT 0,
@@ -35,38 +35,38 @@ CREATE TABLE `question` (
   CREATE TABLE `comment` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `content` TEXT NOT NULL,
-  `user_id` INT NOT NULL,
-  `entity_id` INT NOT NULL,
-  `entity_type` INT NOT NULL,
-  `created_date` DATETIME NOT NULL,
+  `userId` INT NOT NULL,
+  `entityId` INT NOT NULL,
+  `entityType` INT NOT NULL,
+  `createdDate` DATETIME NOT NULL,
   `status` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  INDEX `entity_index` (`entity_id` ASC, `entity_type` ASC)
+  INDEX `entity_index` (`entityId` ASC, `entityType` ASC)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
   DROP TABLE IF EXISTS `message`;
   CREATE TABLE `message` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `from_id` INT NULL,
-    `to_id` INT NULL,
+    `fromId` INT NULL,
+    `toId` INT NULL,
     `content` TEXT NULL,
-    `created_date` DATETIME NULL,
-    `has_read` INT NULL,
-    `conversation_id` VARCHAR(45) NOT NULL,
+    `createdDate` DATETIME NULL,
+    `hasRead` INT NULL,
+    `conversationId` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`),
-    INDEX `conversation_index` (`conversation_id` ASC),
-    INDEX `created_date` (`created_date` ASC))
+    INDEX `conversation_index` (`conversationId` ASC),
+    INDEX `created_date` (`createdDate` ASC))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
   DROP TABLE IF EXISTS `feed`;
   CREATE TABLE `feed` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `created_date` DATETIME NULL,
-    `user_id` INT NULL,
+    `createdDate` DATETIME NULL,
+    `userId` INT NULL,
     `data` TINYTEXT NULL,
     `type` INT NULL,
     PRIMARY KEY (`id`),
-    INDEX `user_index` (`user_id` ASC))
+    INDEX `user_index` (`userId` ASC))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
