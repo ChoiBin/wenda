@@ -12,6 +12,7 @@
 	<artifactId>wenda</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>wenda</name>
+	<packaging>war</packaging>
 	<description>wenda project</description>
 
 	<properties>

@@ -37,8 +37,9 @@ public class CommentController {
     public String addComment(@RequestParam("questionId") int questionId,
                              @RequestParam("content") String content){
         try {
-            //过滤敏感词
+            //过滤HTML标签
             content = HtmlUtils.htmlEscape(content);
+            //过滤敏感词
             content = sensitiveService.filter(content);
             Comment comment = new Comment();
             if(hostHolder.getUser() != null){

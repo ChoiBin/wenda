@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+/**
+ * 将用户信息存放进ThreadLocal中
+ */
 @Component
 public class PassportInterceptor implements HandlerInterceptor {
 
@@ -25,7 +28,7 @@ public class PassportInterceptor implements HandlerInterceptor {
     @Autowired
     private HostHolder hostHolder;
 
-
+   // preHandle：在业务处理器处理请求之前被调用。预处理，可以进行编码、安全控制、权限校验等处理；
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String ticket = null;
@@ -45,10 +48,10 @@ public class PassportInterceptor implements HandlerInterceptor {
             User user = userDao.selectById(loginTicket.getUserId());
             hostHolder.setUser(user);
         }
-
         return true;
     }
 
+   // postHandle：在业务处理器处理请求执行完成后，生成视图之前执行。后处理（调用了Service并返回ModelAndView，但未进行页面渲染），有机会修改ModelAndView
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         if(modelAndView != null){
@@ -56,6 +59,7 @@ public class PassportInterceptor implements HandlerInterceptor {
         }
     }
 
+    //afterCompletion：在DispatcherServlet完全处理完请求后被调用，可用于清理资源等。返回处理（已经渲染了页面）；
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         hostHolder.clear();

@@ -131,12 +131,12 @@ public class SensitiveService implements InitializingBean {
         }
     }
 
-    public static void main(String[] argv) {
-        SensitiveService s = new SensitiveService();
-        s.addWord("色情");
-        s.addWord("好色");
-        System.out.print(s.filter("你好X色**情XX"));
-    }
+//    public static void main(String[] argv) {
+//        SensitiveService s = new SensitiveService();
+//        s.addWord("色情");
+//        s.addWord("好色");
+//        System.out.print(s.filter("你好X色**情XX"));
+//    }
 
     private class TrieNode{
         //是不是关键词结尾
@@ -165,8 +165,4 @@ public class SensitiveService implements InitializingBean {
             this.end = end;
         }
     }
-
-
-
-
 }
